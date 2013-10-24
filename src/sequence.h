@@ -2,9 +2,7 @@
 #pragma once
 
 typedef enum {
-	kSequenceOculusDemo,
-	kSequenceDemo,
-	kGorillaDemo,
+	kSequenceGorillaDemo,
 } SequenceType;
 
 class Sequence : public Ogre::FrameListener, public OIS::KeyListener, public OIS::MouseListener, public OIS::JoyStickListener {
@@ -35,8 +33,8 @@ public:
 };
 
 /*
-sequence에는 최소한의 인터페이스만 집어넣고
-기본적인 키보드 인식(카메라 모드, 콘솔, 디버깅 정보 출력...)등의 용도를 포함한 클래스를 따로 만듬
+Sequence is minimal interface
+BaseSequence is REAL Base Sequence, support camera, console, draw fps,...
 */
 class BaseSequence : public Sequence {
 public:
@@ -53,10 +51,4 @@ private:
 	Gorilla::Caption *fps_;
 	Ogre::Real timer_;
 	bool running_;
-};
-
-class SequenceFactory {
-public:
-	Sequence *createRaw(SequenceType type) const;
-	std::unique_ptr<Sequence> create(SequenceType type) const;
 };

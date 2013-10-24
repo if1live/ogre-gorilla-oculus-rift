@@ -14,7 +14,7 @@ Gorilla3DSequence::Gorilla3DSequence()
 	mNextUpdate(0),
 	cam_controller_(new FPSCameraController(0, 0, 0))
 {
-	
+	setUp();
 }
 
 void Gorilla3DSequence::setUp()

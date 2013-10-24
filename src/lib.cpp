@@ -78,7 +78,7 @@ bool startUp(unsigned int flag)
 {
 	init_flag = flag;
 
-	//null object로 채울수 있는거 미리 채워놓기
+	// fill null object
 	latency_util.reset(new NullLatencyUtil());
 	device_pnp.reset(new NullDevicePlugAndPlay());
 
@@ -127,7 +127,7 @@ bool startUp(unsigned int flag)
 	if((flag & USE_CONSOLE) == USE_CONSOLE) {
 		OVR_ASSERT((flag & USE_GORILLA) == USE_GORILLA && "console need gorilla");
 
-		//hud는 독룁된 scene mgr를 써야한다. 그렇지 않으면 3d공간에 사용하려고 했던 씬을 잘못 렌더링할 가능성이 있다
+		//HUD must use indepentend SceneManager!
 		auto hud_scene_mgr = root->createSceneManager(Ogre::ST_GENERIC);
 		auto cam = hud_scene_mgr->createCamera("HMDCamera");
 		const int console_z_order = 10;
@@ -182,8 +182,7 @@ void shutDown()
 		shutDownOgre();
 	}
 
-	//null object로 추정되는 같이 해제
-	//libovr과 관련된것중 nullobject인거 뺴먹으면 메모리에러남
+	//manual free object
 	latency_util.reset(nullptr);
 	device_pnp.reset(nullptr);
 
@@ -208,8 +207,8 @@ bool startUpLibOVR()
 	}
 	Ogre::LogManager::getSingleton().logMessage("Oculus: Created Device Manager");
 
-	// hmd 실제 장비 초기화는 장치가 없어서 실패할 가능성이 있다.
-	// 그래서 libovr 기반이 되는 객체부터 초기화한다
+	// if REAL HMD object is not exist, startUpLibOVR maybe occur failure
+	// So, initialize LibOVR base object first.
 	OVR_ASSERT(!msg_handler);
 	msg_handler = new CoreMessageHandler();
 	device_mgr->SetMessageHandler(msg_handler);
@@ -507,20 +506,6 @@ bool configureOgreByGUI()
 	if(root->showConfigDialog()) {
 		// If returned true, user clicked OK so initialise
 		// Here we choose to let the system create a default rendering window by passing 'true'
-
-		/*
-		auto render_system = root->getRenderSystem();
-		Ogre::ConfigOptionMap &config = render_system->getConfigOptions();
-		auto it = config.begin();
-		auto endit = config.end();
-		for( ; it != endit ; ++it) {
-			if (it->second.name == "Video Mode") {
-				//해상도 강제. gl은 이거면 되는데 dx면 내용이 다르다 -_-
-				it->second.currentValue = "1280 x 800";
-			}
-		}
-		*/
-
 		window = root->initialise(true, "TutorialApplication Render Window");
 		return true;
 	} else {

@@ -18,9 +18,8 @@ struct MoveEvent {
 
 
 /*
-FPS시점을 조작하기 위한 용도의 클래스이다.
-플레이어가 처다보는 방향와 이동할 방향을 통제한다.
-플레이어의 실제 위치는 여기에서 통제하지 않는다
+Controll FPS Camera view. control moving direction and view direction.
+Not control position.
 */
 class FPSCameraController : public OIS::KeyListener, public OIS::MouseListener, public OIS::JoyStickListener {
 public:

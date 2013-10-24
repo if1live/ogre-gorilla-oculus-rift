@@ -3,31 +3,10 @@
 #include "sequence.h"
 #include "lib.h"
 #include "OgreOculus.h"
-#include "oculus_demo_sequence.h"
-#include "demo_sequence.h"
 #include "OgreConsoleForGorilla.h"
 #include "gorilla_3d_sequence.h"
 
 static const int console_key = OIS::KC_GRAVE;
-
-Sequence *SequenceFactory::createRaw(SequenceType type) const
-{
-	switch(type) {
-	case kSequenceOculusDemo:
-		return new OculusDemoSequence();
-	case kSequenceDemo:
-		return new DemoSequence();
-	case kGorillaDemo:
-		return new Gorilla3DSequence();
-	default:
-		OVR_ASSERT(!"not valid sequence type");
-		return nullptr;
-	}
-}
-std::unique_ptr<Sequence> SequenceFactory::create(SequenceType type) const
-{
-	return std::unique_ptr<Sequence>(createRaw(type));
-}
 
 /////////////////////////////////////////////////////////////////////
 void Sequence::registerSequence()
