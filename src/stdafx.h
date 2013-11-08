@@ -47,10 +47,9 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
-// ogre
-#include <Ogre.h>
-
-#include "Gorilla.h"
+/*** NOTE: OVR.h is moved up above the #defs that disable OVR_DEFINE_NEW ***/
+// libovr
+#include <OVR.h>
 
 //disable oculus sdk new
 #ifdef OVR_DEFINE_NEW
@@ -62,8 +61,10 @@
 #include <windows.h>
 #endif
 
-// libovr
-#include <OVR.h>
+// ogre
+#include <Ogre.h>
+
+#include "Gorilla.h"
 
 #include "OIS.h"
 
